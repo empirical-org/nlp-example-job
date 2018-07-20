@@ -56,12 +56,13 @@
   - name: Install libpq-dev (psycopg2 requirement)
     apt:
       name: libpq-dev
-  - name: Creates directory for job tarball
+  - name: Create jobs folder
     file: path=/var/lib/jobs state=directory
-  - name: Move job repository to remote host 
-    copy:
-      src: /var/lib/jobs/{{ job_name }}/{{ job_hash }}/{{ job_name }}
-      dest: /var/lib/jobs
+  - name: Clone job repository to remote host
+    git:
+      repo: '{{ repo }}'
+      dest: /var/lib/jobs/{{ job_name }}
+      version: '{{ job_hash }}'
   # Networking (communication w nlp-job-manager)
   - name: Copy private key to remote servers to allow communication with this host 
     copy:
