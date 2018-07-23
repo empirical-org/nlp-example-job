@@ -5,6 +5,7 @@ import os
 import socket
 import subprocess
 import psycopg2
+import uuid
 
 FNAME=os.path.basename(__file__)
 PID=os.getpid()
@@ -22,7 +23,8 @@ logger = logging.getLogger('trainer')
 
 try:
     JOB_ID = os.environ['JOB_ID']
-    DROPLET_NAME = os.environ['DROPLET_NAME']
+    #DROPLET_NAME = os.environ['DROPLET_NAME']
+    DROPLET_NAME = str(uuid.uuid4())
     DB_NAME = os.environ.get('DB_NAME', 'nlp')
     DB_PASSWORD = os.environ.get('DB_PASS', '')
     DB_USER = os.environ.get('DB_USER', DB_NAME)
