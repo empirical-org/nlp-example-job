@@ -55,17 +55,6 @@ done
 # wait for all reducers in queue to finish
 sleep 1m
 
-
-# TODO: should we kill reducers and reduction publishers?  maybe just don't
-# bother?
-# kill all reducers
-#for p in "${reducer_processes[@]}"; do
-#  kill -9 $p
-#done
-# kill prereduction publisher and reduction writer
-#kill -9 $prereduction_publisher_process
-#kill -9 $reduction_writer_process
-
 # start pre-vectorization publisher
 nohup /var/lib/jobs/$JOB_NAME/vectorizer/venv/bin/python3 /var/lib/jobs/$JOB_NAME/vectorizer/publisher.py &
 prevectorization_publisher_process=$!
@@ -95,8 +84,8 @@ done
 # wait for all reducers in queue to finish
 sleep 1m
 
-# attempt to cast spells (train tf model) 
-nohup /var/lib/jobs/$JOB_NAME/train/venv/bin/python3 /var/lib/jobs/$JOB_NAME/train/castspell.py &
+# attempt to cast spells (train tf model) (syncronous - we want it to finish)
+/var/lib/jobs/$JOB_NAME/train/venv/bin/python3 /var/lib/jobs/$JOB_NAME/train/castspell.py
 spellcast_process=$!
 
 ## TODO: do we need to kill these? we delete the droplet anyway. commenting out
