@@ -62,7 +62,6 @@ def cast_spell():
     #v100 is the rocket ship, k80 is a volvo
     spell_script = 'spell run {pipargs} --env SECRET={secret} --env JOB_ID={job_id} \
             --force \
-            --background \
             --framework \
             tensorflow==1.8.0 --env API_URL={api_url} --python3 \
             -t k80 "python spell/train.py"'.format(
