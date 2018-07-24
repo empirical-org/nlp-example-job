@@ -46,7 +46,7 @@ done
 while [ true ]
 do
     sleep 1m
-    export r=$(curl $JOB_MANAGER/jobs/$JOB_ID/state) && [ $r == \"reduced\" ] && break || continue
+    export r=$(curl --user $JM_USR:$JM_PASS $JOB_MANAGER/jobs/$JOB_ID/state) && [ $r == \"reduced\" ] && break || continue
 done
 
 
@@ -76,7 +76,7 @@ done
 while [ true ]
 do
     sleep 2m
-    export r=$(curl $JOB_MANAGER/jobs/$JOB_ID/state) && [ $r == \"vectorized\" ] && break || continue
+    export r=$(curl --user $JM_USR:$JM_PASS $JOB_MANAGER/jobs/$JOB_ID/state) && [ $r == \"vectorized\" ] && break || continue
 done
 
 # TODO: bad code, remove this - fix should be in reducers where job state is
@@ -85,12 +85,12 @@ done
 sleep 1m
 
 # attempt to cast spells (train tf model) 
-curl -X POST $JOB_MANAGER/jobs/$JOB_ID/spell
+curl --user $JM_USR:$JM_PASS -X POST $JOB_MANAGER/jobs/$JOB_ID/spell
 sleep 10s
 
 # once vectorization is complete, the droplet is no longer needed, droplet makes
 # a DELETE request on itself.
-curl -X DELETE $JOB_MANAGER/droplets/$DROPLET_UID
+curl --user $JM_USR:$JM_PASS -X DELETE $JOB_MANAGER/droplets/$DROPLET_UID
 
 
 

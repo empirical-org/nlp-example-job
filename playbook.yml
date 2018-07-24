@@ -18,6 +18,8 @@
     - DB_PASS={{ lookup('env', 'DB_PASS') }}
     - DB_PORT={{ lookup('env', 'DB_PORT') }}
     - DB_USER={{ lookup('env', 'DB_USER') }} 
+    - JM_USER={{ lookup('env', 'JM_USER') }}
+    - JM_PASS={{ lookup('env', 'JM_PASS') }}
     - JOB_ID={{ job_id }}
     - JOB_MANAGER='http://206.81.5.140'
     - JOB_NAME={{ job_name }}

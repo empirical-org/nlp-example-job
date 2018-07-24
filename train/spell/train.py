@@ -16,6 +16,8 @@ try:
     API_URL = os.environ['API_URL']
     JOB_URL = '{}/jobs/{}/vectors'.format(API_URL, JOB_ID)
     MODEL_NAME = os.environ.get('GENERATED_MODEL_NAME','{}.tfl'.format(JOB_ID))
+    JM_USER = os.environ['JM_USER']
+    JM_PASS = os.environ['JM_PASS']
 except KeyError as e:
     print('critical environment variables were not set! exiting.')
     raise e
@@ -26,12 +28,12 @@ def get_labeled_vectors(offset, limit):
         1), ...]'''
 
     payload = {'offset': offset, 'limit': limit, 'full_info': 0}
-    r = requests.get(url=JOB_URL, params=payload)
+    r = requests.get(url=JOB_URL, params=payload, auth=(JM_USER, JM_PASS))
     return r.json()['labeled_vectors']
 
 def get_model_info():
     payload = {'offset': 0, 'limit': 0, 'full_info': 1}
-    r = requests.get(url=JOB_URL, params=payload)
+    r = requests.get(url=JOB_URL, params=payload, auth=(JM_USER, JM_PASS))
     info_json = r.json()
     return (info_json['vector_length'], info_json['num_classes'],
             info_json['num_labeled_vectors'])
