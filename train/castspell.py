@@ -23,34 +23,12 @@ logger = logging.getLogger('trainer')
 
 try:
     JOB_ID = os.environ['JOB_ID']
-    #DROPLET_NAME = os.environ['DROPLET_NAME']
-    DROPLET_NAME = str(uuid.uuid4())
     DB_NAME = os.environ.get('DB_NAME', 'nlp')
     DB_PASSWORD = os.environ.get('DB_PASS', '')
     DB_USER = os.environ.get('DB_USER', DB_NAME)
 except KeyError as e:
     logger.info('critical environment variables were not set. exiting')
     raise e
-
-
-def become_wizard():
-    conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD,
-            host='localhost')
-    cur = conn.cursor()
-
-    # Check if another droplet has already claimed the defense against the dark
-    # arts post. if so exit, if not mark that one is running then continue.
-    cur.execute("""UPDATE jobs SET meta=jsonb_set(meta, '{wizard}', %s), updated=DEFAULT
-                    WHERE NOT(meta ? 'wizard')
-                    AND id=%s
-                """, (json.dumps(DROPLET_NAME),JOB_ID))
-    conn.commit()
-    cur.execute("""SELECT COUNT(*) FROM jobs WHERE
-                    meta->'wizard'=%s 
-                    AND id=%s
-                """,
-            (json.dumps(DROPLET_NAME), JOB_ID))
-    return cur.fetchone()[0] == 1
 
 
 def cast_spell():
@@ -71,13 +49,4 @@ def cast_spell():
     logger.info('Avada kedavra!!')
 
 if __name__ == '__main__':
-    # attempt to register as wizard
-    logger.info('registering as wizard...')
-    i_got_my_letter =  become_wizard()
-    # cast spell
-    if i_got_my_letter:
-        logger.info('casting spell...')
-        cast_spell()
-    else:
-        logger.info("you're a muggle harry.")
-
+    cast_spell()
