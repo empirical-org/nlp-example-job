@@ -19,7 +19,7 @@
     - DB_PORT={{ lookup('env', 'DB_PORT') }}
     - DB_USER={{ lookup('env', 'DB_USER') }} 
     - JOB_ID={{ job_id }}
-    - JOB_MANAGER='http://localhost:5000'
+    - JOB_MANAGER='http://206.81.5.140'
     - JOB_NAME={{ job_name }}
     - MAX_QUEUE_LEN=5000
     - PRE_REDUCTIONS_QUEUE_BASE='pre-reductions'
