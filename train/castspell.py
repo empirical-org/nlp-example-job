@@ -47,7 +47,7 @@ def cast_spell():
             --framework \
             tensorflow==1.8.0 --env API_URL={api_url} --python3 \
             -t k80 "python spell/train.py"'.format(
-            secret="TODO", job_id=JOB_ID, api_url="http://206.81.5.140:5000",
+            secret="TODO", job_id=JOB_ID, api_url="http://206.81.5.140",
             pipargs=inline_pip_args, JM_USER=JM_USER, JM_PASS=JM_PASS)
     subprocess.call(shlex.split(spell_script))
     logger.info('Avada kedavra!!')
